@@ -1,0 +1,4 @@
+Stand
+Raising_hand
+Jumping
+Squatting

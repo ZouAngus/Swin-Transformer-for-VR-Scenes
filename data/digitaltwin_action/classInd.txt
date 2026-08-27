@@ -1,0 +1,4 @@
+0 Stand
+1 Raising_hand
+2 Jumping
+3 Squatting

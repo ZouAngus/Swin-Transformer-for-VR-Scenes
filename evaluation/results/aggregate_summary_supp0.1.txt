@@ -1,0 +1,31 @@
+eval dir:          eval_supp0.1
+videos evaluated:  63
+GT segments total: 2946  (excluded 126: Walking)
+mean rel error:    9.3%
+median rel error:  0.0%
+rel error < 10%: 80.4% (2370/2946)
+rel error < 20%: 87.1% (2565/2946)
+rel error < 30%: 90.6% (2670/2946)
+segments <3s: n=1890  <10%: 86.7%  median err: 0.0%
+segments >=3s: n=1056  <10%: 69.2%  median err: 0.0%
+
+class               n    <10%   median
+Raising_hand      762   89.8%     0.0%
+Jumping           370   93.2%     0.0%
+Squatting         368   90.5%     0.0%
+Bending_Down      366   75.7%     0.0%
+Running           189   61.4%     4.5%
+Stand             183  100.0%     0.0%
+Picking_item      113   62.8%     0.0%
+Bowling           112   50.0%     9.8%
+Throw             110   48.2%    11.1%
+Grabbing          108   75.0%     0.0%
+Waive_sword        76   85.5%     0.6%
+Cutting            62   66.1%     4.8%
+Measure_Length     54   38.9%    29.0%
+Move_Controller    31   48.4%    16.6%
+Shooting           20   60.0%     8.5%
+Catching_fish      12   91.7%     0.0%
+Waive              10   60.0%     0.9%
+
+mean mIoU over videos (bg incl, thr 0): 0.6075

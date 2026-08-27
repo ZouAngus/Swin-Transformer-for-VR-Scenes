@@ -1,0 +1,72 @@
+# ---------------------------------------------------------------------------
+# Large binaries — never commit. GitHub rejects files over 100 MB, and every
+# checkpoint here is ~127 MB. See README "What is not in this repository".
+# ---------------------------------------------------------------------------
+*.pth
+*.pt
+*.pkl
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.tar
+*.tar.gz
+*.xz
+*.zip
+
+# ---------------------------------------------------------------------------
+# Datasets — 93 GB of video. Only the annotation lists and class-index files
+# are tracked, because they define the splits and are needed to reproduce runs.
+# ---------------------------------------------------------------------------
+data/*
+!data/myvideo/
+!data/digitaltwin_action/
+data/myvideo/*
+!data/myvideo/*.txt
+data/digitaltwin_action/*
+!data/digitaltwin_action/*.txt
+
+# ---------------------------------------------------------------------------
+# Model weights (~375 MB)
+# ---------------------------------------------------------------------------
+checkpoints/
+
+# ---------------------------------------------------------------------------
+# Training / evaluation output (~11 GB). The scripts and the key results that
+# the report cites are kept under evaluation/ instead.
+# ---------------------------------------------------------------------------
+work_dirs/
+.dist_test/
+
+# ---------------------------------------------------------------------------
+# Demo output (~8.7 GB of source and annotated videos)
+# ---------------------------------------------------------------------------
+demo/digitaltwins/
+demo/4cls_runs/
+
+# ---------------------------------------------------------------------------
+# Superseded by evaluation/ — the copies there have working figure links.
+# Both files are still present on server2 for existing workflows.
+# ---------------------------------------------------------------------------
+/EVAL_detection_classification.md
+/EVAL_detection_classification.pdf
+
+# Folded into README.md (also avoids a README.md / readme.md collision on
+# case-insensitive filesystems). Still present on server2.
+/readme.md
+
+# ---------------------------------------------------------------------------
+# Python / editor / OS noise
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.ipynb_checkpoints/
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*.log

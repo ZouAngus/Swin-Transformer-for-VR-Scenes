@@ -1,0 +1,200 @@
+[
+  {
+    "action_label": "Bending_Down",
+    "timestamp": 1.07,
+    "start_frame": 32,
+    "end_frame": 175,
+    "duration_frames": 144,
+    "duration_seconds": 4.8,
+    "confidence_score": 0.08
+  },
+  {
+    "action_label": "Raising_hand",
+    "timestamp": 5.87,
+    "start_frame": 176,
+    "end_frame": 191,
+    "duration_frames": 16,
+    "duration_seconds": 0.53,
+    "confidence_score": 0.07
+  },
+  {
+    "action_label": "Bending_Down",
+    "timestamp": 6.4,
+    "start_frame": 192,
+    "end_frame": 207,
+    "duration_frames": 16,
+    "duration_seconds": 0.53,
+    "confidence_score": 0.07
+  },
+  {
+    "action_label": "Raising_hand",
+    "timestamp": 6.93,
+    "start_frame": 208,
+    "end_frame": 223,
+    "duration_frames": 16,
+    "duration_seconds": 0.53,
+    "confidence_score": 0.07
+  },
+  {
+    "action_label": "Bending_Down",
+    "timestamp": 7.47,
+    "start_frame": 224,
+    "end_frame": 239,
+    "duration_frames": 16,
+    "duration_seconds": 0.53,
+    "confidence_score": 0.08
+  },
+  {
+    "action_label": "Raising_hand",
+    "timestamp": 8.0,
+    "start_frame": 240,
+    "end_frame": 255,
+    "duration_frames": 16,
+    "duration_seconds": 0.53,
+    "confidence_score": 0.08
+  },
+  {
+    "action_label": "Bending_Down",
+    "timestamp": 8.53,
+    "start_frame": 256,
+    "end_frame": 319,
+    "duration_frames": 64,
+    "duration_seconds": 2.13,
+    "confidence_score": 0.08
+  },
+  {
+    "action_label": "Raising_hand",
+    "timestamp": 10.67,
+    "start_frame": 320,
+    "end_frame": 335,
+    "duration_frames": 16,
+    "duration_seconds": 0.53,
+    "confidence_score": 0.08
+  },
+  {
+    "action_label": "Bending_Down",
+    "timestamp": 11.2,
+    "start_frame": 336,
+    "end_frame": 1295,
+    "duration_frames": 960,
+    "duration_seconds": 32.0,
+    "confidence_score": 0.09
+  },
+  {
+    "action_label": "Jumping",
+    "timestamp": 43.2,
+    "start_frame": 1296,
+    "end_frame": 1343,
+    "duration_frames": 48,
+    "duration_seconds": 1.6,
+    "confidence_score": 0.07
+  },
+  {
+    "action_label": "Bending_Down",
+    "timestamp": 44.8,
+    "start_frame": 1344,
+    "end_frame": 1503,
+    "duration_frames": 160,
+    "duration_seconds": 5.33,
+    "confidence_score": 0.07
+  },
+  {
+    "action_label": "Raising_hand",
+    "timestamp": 50.13,
+    "start_frame": 1504,
+    "end_frame": 1519,
+    "duration_frames": 16,
+    "duration_seconds": 0.53,
+    "confidence_score": 0.07
+  },
+  {
+    "action_label": "Jumping",
+    "timestamp": 50.67,
+    "start_frame": 1520,
+    "end_frame": 1551,
+    "duration_frames": 32,
+    "duration_seconds": 1.07,
+    "confidence_score": 0.07
+  },
+  {
+    "action_label": "Bending_Down",
+    "timestamp": 51.73,
+    "start_frame": 1552,
+    "end_frame": 2127,
+    "duration_frames": 576,
+    "duration_seconds": 19.2,
+    "confidence_score": 0.08
+  },
+  {
+    "action_label": "Running",
+    "timestamp": 70.93,
+    "start_frame": 2128,
+    "end_frame": 2143,
+    "duration_frames": 16,
+    "duration_seconds": 0.53,
+    "confidence_score": 0.08
+  },
+  {
+    "action_label": "Bending_Down",
+    "timestamp": 71.47,
+    "start_frame": 2144,
+    "end_frame": 2351,
+    "duration_frames": 208,
+    "duration_seconds": 6.93,
+    "confidence_score": 0.08
+  },
+  {
+    "action_label": "Jumping",
+    "timestamp": 78.4,
+    "start_frame": 2352,
+    "end_frame": 2383,
+    "duration_frames": 32,
+    "duration_seconds": 1.07,
+    "confidence_score": 0.07
+  },
+  {
+    "action_label": "Bending_Down",
+    "timestamp": 79.47,
+    "start_frame": 2384,
+    "end_frame": 2783,
+    "duration_frames": 400,
+    "duration_seconds": 13.33,
+    "confidence_score": 0.08
+  },
+  {
+    "action_label": "Raising_hand",
+    "timestamp": 92.8,
+    "start_frame": 2784,
+    "end_frame": 2847,
+    "duration_frames": 64,
+    "duration_seconds": 2.13,
+    "confidence_score": 0.07
+  },
+  {
+    "action_label": "Bending_Down",
+    "timestamp": 94.93,
+    "start_frame": 2848,
+    "end_frame": 3455,
+    "duration_frames": 608,
+    "duration_seconds": 20.27,
+    "confidence_score": 0.08
+  },
+  {
+    "action_label": "Raising_hand",
+    "timestamp": 115.2,
+    "start_frame": 3456,
+    "end_frame": 3471,
+    "duration_frames": 16,
+    "duration_seconds": 0.53,
+    "confidence_score": 0.08
+  },
+  {
+    "action_label": "Bending_Down",
+    "timestamp": 115.73,
+    "start_frame": 3472,
+    "end_frame": 3690,
+    "duration_frames": 219,
+    "duration_seconds": 7.3,
+    "confidence_score": 0.08
+  }
+]

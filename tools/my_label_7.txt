@@ -1,0 +1,7 @@
+Stand
+Bending_Down
+Walking
+Raising_hand
+Squatting
+Running
+Jumping
