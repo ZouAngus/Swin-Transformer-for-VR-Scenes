@@ -71,19 +71,67 @@ These live on **server2** under `~/my_mmaction2/` and are excluded by
 |---|---|---|
 | `data/myvideo/videos_{train,val}/` | ~93 GB | 14,056 training + 7,289 validation clips (18-class) |
 | `data/digitaltwin_action/*/` | — | 4-class digital-twin clips |
-| `checkpoints/bg_7289/best_acc_top1_epoch_27.pth` | 127 MB | **18-class base model** (trained with background frames) |
-| `checkpoints/no_bg/best_acc_top1_epoch_24.pth` | 127 MB | 18-class, action-annotated frames only |
-| `checkpoints/class_7/best_acc_top1_epoch_18.pth` | 121 MB | 7 generic classes; the warm-start for the 4-class fine-tunes |
+| `checkpoints/` + the demo checkpoint | ~709 MB | trained model weights — **[available for download](#model-weights)** |
 | `work_dirs/` | ~11 GB | training logs and per-epoch checkpoints of all 8 experiments |
 | `demo/digitaltwins/`, `demo/4cls_runs/` | ~8.7 GB | demo source recordings and annotated output |
 | `~/action/data/{excel,raw_long}/` | — | long-video annotations (Excel) and raw session recordings |
 
-The best 4-class checkpoint used by the demo is
-`work_dirs/4cls_finetune_v51_walking_neg/epoch_30.pth`.
-
 The annotation lists **are** tracked (`data/myvideo/*.txt`,
 `data/digitaltwin_action/*.txt`, ~1.3 MB), so splits are reproducible once the
 videos are restored.
+
+---
+
+## Model weights
+
+Every checkpoint is larger than GitHub's 100 MB per-file limit, so the weights
+are distributed separately.
+
+**📦 [Download all checkpoints (HKU SharePoint / OneDrive)](https://connecthkuhk-my.sharepoint.com/:f:/g/personal/u3583523_connect_hku_hk/IgAQ9OH1E8knSaKnLVYCFGexASMQNBKG_0cQ79n-CZz4JvU?e=WbB5y1)**
+
+The archive (`checkpoints_bundle.zip`, 709 MB) mirrors this repository's
+directory layout, so unzipping it at the repository root puts every file exactly
+where the configs and commands expect it — no path edits needed:
+
+```bash
+unzip checkpoints_bundle.zip -d /path/to/Swin-Transformer-for-VR-Scenes/
+```
+
+### What is in the archive
+
+| File | Size | Classes | Purpose |
+|---|---|---|---|
+| `checkpoints/bg_7289/best_acc_top1_epoch_27.pth` | 127 MB | 18 | **18-class base model**, trained with background frames included. This is the model evaluated in the report — detection rate 96.80%, classification accuracy 99.70%, duration error 9.3%. Use this for all 18-class training, testing and long-video inference. |
+| `work_dirs/4cls_finetune_v51_walking_neg/epoch_30.pth` | 334 MB | 4 | **Used for the digitaltwins demo.** The v5.1 fine-tune (walking negatives), and the checkpoint the `demo/long_video_demo_4cls_v2.py` command below runs with. Larger than the others because it is a full training checkpoint — it carries optimizer state alongside the weights. |
+| `checkpoints/class_7/best_acc_top1_epoch_18.pth` | 121 MB | 7 | 7 generic body classes. Warm-start weight loaded via `load_from` in `configs/recognition/swin/my_swin_4cls.py`; the whole 4-class fine-tune chain descends from it. |
+| `checkpoints/no_bg/best_acc_top1_epoch_24.pth` | 127 MB | 18 | 18-class variant trained only on action-annotated frames, with no background clips. Kept for comparison; not used in the reported results. |
+
+The archive also contains `CHECKPOINTS_README.md` and `SHA256SUMS.txt`.
+
+### Verifying the download
+
+```bash
+unzip checkpoints_bundle.zip -d ./bundle && cd ./bundle
+sha256sum -c SHA256SUMS.txt      # every line should print OK
+```
+
+| File | SHA256 |
+|---|---|
+| `checkpoints/bg_7289/best_acc_top1_epoch_27.pth` | `28e04b0df9ba30d65af596c42cce4d560e8cb5105c0d9b472aee16e098c24e6c` |
+| `checkpoints/no_bg/best_acc_top1_epoch_24.pth` | `42b925688b1c5c7bb3d8c4d70bcd4fb7dc515c05c5f646c07a9216a1e5fbf57f` |
+| `checkpoints/class_7/best_acc_top1_epoch_18.pth` | `0dc725acfa2c6bced9a9d7992ac6243cbde7b4cdcc9cb479825aa7f46cde6659` |
+| `work_dirs/4cls_finetune_v51_walking_neg/epoch_30.pth` | `3a63f1c939440d0e534a717a5cc5956453e93d1f0214d1a3cbdc0a96ac9b5224` |
+
+If a checksum does not match, the transfer was corrupted — download again rather
+than trying to use the file.
+
+### Which checkpoint goes with which command
+
+| Task | Checkpoint |
+|---|---|
+| 18-class training / testing / `tools/infer_long_video.py` | `checkpoints/bg_7289/best_acc_top1_epoch_27.pth` |
+| **digitaltwins long-video demo** (`demo/long_video_demo_4cls_v2.py`) | `work_dirs/4cls_finetune_v51_walking_neg/epoch_30.pth` |
+| 4-class fine-tune warm start | `checkpoints/class_7/best_acc_top1_epoch_18.pth` (set automatically by `load_from`) |
 
 ---
 
@@ -218,6 +266,9 @@ them if you clone this repository somewhere else.
 
 ## Testing
 
+Checkpoint: `checkpoints/bg_7289/best_acc_top1_epoch_27.pth` — see
+[Model weights](#model-weights) for the download.
+
 ```bash
 cd ~/my_mmaction2
 bash tools/dist_test.sh configs/recognition/swin/my_swin.py \
@@ -235,6 +286,9 @@ Single GPU: `python tools/test.py <config> <checkpoint> --work-dir ... --dump ..
 ## Long-video inference (demo)
 
 ### 4-class digital-twin demo
+
+Checkpoint: `work_dirs/4cls_finetune_v51_walking_neg/epoch_30.pth` — see
+[Model weights](#model-weights) for the download.
 
 This is the command used for the digital-twin recordings. It runs two passes
 (inference, then annotated rendering) and writes three files into
