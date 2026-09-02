@@ -270,7 +270,7 @@ cd data/myvideo && python ../../data/prep/file_list.py
 For the training split, repeat with `--persons 1 2 3 4 5 6 7 8 9 10` and
 `--out-dir data/myvideo/videos_train`. The long-video (event-level) evaluation
 needs no cutting at all — it runs directly on the raw videos (see
-`evaluation/`). Note: the historical clip set was cut with an earlier
+`working_directory/evaluation/`). Note: the historical clip set was cut with an earlier
 server-side script; rebuilt clips are functionally equivalent (same intervals,
 same Excel ground truth) but file names may differ in minor details, so always
 regenerate the lists in stage 3 rather than reusing the tracked ones.
@@ -409,7 +409,7 @@ python working_directory/infer_long_video.py \
 ## Evaluation
 
 Everything needed to reproduce the numbers in the report is collected under
-[`evaluation/`](evaluation/):
+[`working_directory/evaluation/`](working_directory/evaluation/):
 
 ```
 evaluation/
@@ -494,7 +494,7 @@ Step 4 reproduces the reported **9.3%** duration error. Note the two arguments:
 | `eval_supp0.5` | 22.2% | 20.3% | 3.2% |
 | `eval_sm3` (smoothing) | 31.4% | 29.5% | 15.4% |
 
-> The `aggregate.py` in `evaluation/scripts/` takes the evaluation directory as
+> The `aggregate.py` in `working_directory/evaluation/scripts/` takes the evaluation directory as
 > an argument. The original in `work_dirs/long_eval_18cls/` has `eval/`
 > hard-coded, which is why the summary checked in there shows the 30.9%
 > baseline rather than the 9.3% figure quoted in the report. Both numbers are
