@@ -33,7 +33,7 @@ TIMESTAMP_PATTERN = re.compile(
     r'(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})-(?P<hour>\d{2})-(?P<minute>\d{2})-(?P<second>\d{2})$'
 )
 FORMAT_JSON_TO_ACTION_SCRIPT = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), '..', 'format_json_to_action.py')
+    os.path.dirname(os.path.abspath(__file__)), '..', 'tools', 'format_json_to_action.py')
 
 
 def parse_args():

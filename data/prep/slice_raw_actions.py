@@ -6,12 +6,12 @@ historical slicing that originally happened on server1, so that a third party
 holding only (a) the raw long videos and (b) this repository can rebuild the
 training / test clip sets from scratch:
 
-    1. tools/data_prep/slice_raw_actions.py   raw videos + Excel -> per-class clips
-    2. tools/data_prep/slice_bg_val.py        window long Stand/_bg clips (100 frames)
-    3. tools/data_prep/file_list.py           clips -> myvideo_{train,val}_list.txt
+    1. data/prep/slice_raw_actions.py   raw videos + Excel -> per-class clips
+    2. data/prep/slice_bg_val.py        window long Stand/_bg clips (100 frames)
+    3. data/prep/file_list.py           clips -> myvideo_{train,val}_list.txt
 
 Excel parsing (sheet aliases, row-id -> label mapping, repetition columns) is
-imported from tools/eval_long_video.py so the ground truth used for slicing is
+imported from working_directory/eval_long_video.py so the ground truth used for slicing is
 byte-identical to the one used by the event-level evaluation.
 
 Output layout (one folder per class, mirroring data/myvideo/videos_*):
@@ -21,7 +21,7 @@ Output layout (one folder per class, mirroring data/myvideo/videos_*):
 
 Usage (rebuild the test split, persons 11-15):
 
-    python tools/data_prep/slice_raw_actions.py \
+    python data/prep/slice_raw_actions.py \
         --raw-dir /path/to/raw_long \
         --excel-dir data/excel \
         --out-dir data/myvideo/videos_val \
@@ -36,8 +36,8 @@ from pathlib import Path
 
 import cv2
 
-# import Excel helpers from tools/eval_long_video.py without packaging
-_ELV = Path(__file__).resolve().parents[1] / 'eval_long_video.py'
+# import Excel helpers from working_directory/eval_long_video.py without packaging
+_ELV = Path(__file__).resolve().parents[2] / 'working_directory' / 'eval_long_video.py'
 spec = importlib.util.spec_from_file_location('eval_long_video', _ELV)
 elv = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(elv)

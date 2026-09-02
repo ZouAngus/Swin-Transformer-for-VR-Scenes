@@ -12,7 +12,7 @@ Persons 1-10 (training split) live on server1: `/data/sda1/shared/`.
 One Excel workbook per person: `data/excel/DataCollection_XX.xlsx`
 (copied here from `~/action/data/excel/`), one sheet per scene. Each row is an
 action type (fixed row-id -> label mapping, common rows 1-20 + scene-specific
-rows 21+; see SCENE_ROWID_TO_LABEL in `tools/eval_long_video.py`), and each
+rows 21+; see SCENE_ROWID_TO_LABEL in `working_directory/eval_long_video.py`), and each
 annotated repetition stores start/end frame indices. Frames are annotated on
 view C; view L shares the annotation (~6-frame offset, see repo readme).
 `data/excel/frame_counts.json` records the frame count of every raw video.
@@ -31,10 +31,10 @@ view C; view L shares the annotation (~6-frame offset, see repo readme).
 Result: 14k training clips (persons 1-10) and 7,289 test clips (persons 11-15).
 
 ## 4. Long-video evaluation data
-No cutting: sliding-window inference (`tools/infer_long_video.py`) runs
+No cutting: sliding-window inference (`working_directory/infer_long_video.py`) runs
 directly on the raw session recordings of persons 11-15. Ground-truth event
 intervals are parsed from the same Excel workbooks by
-`tools/eval_long_video.py` (also archived here; original at
-`~/action/tools/eval_long_video.py`). `split_long_video.py` is the legacy
+`working_directory/eval_long_video.py` (also archived here; original at
+`~/action/working_directory/eval_long_video.py`). `split_long_video.py` is the legacy
 alternative that physically cuts a long video into sliding-window clips for
 `tools/test.py`.

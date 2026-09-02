@@ -10,3 +10,6 @@ of the current pipeline.
 - `readme_server_legacy.md` — the original server-era readme (superseded by the
   top-level README.md).
 - `action.json`, `04-11_action.json` — example inference outputs from early runs.
+
+- `v3_known_good/` — frozen config + split of the v3 4-class fine-tune.
+- `action.json`, `04-11_action.json` — legacy example outputs (moved from repo root).

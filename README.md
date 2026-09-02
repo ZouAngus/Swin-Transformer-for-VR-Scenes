@@ -23,7 +23,7 @@ Two models are maintained:
 
 Base 18-class model, `checkpoints/bg_7289/best_acc_top1_epoch_27.pth`, evaluated
 on held-out persons 11–15. Full write-up, figures and reproduction commands:
-[`evaluation/EVAL_detection_classification.md`](evaluation/EVAL_detection_classification.md).
+[`working_directory/evaluation/EVAL_detection_classification.md`](working_directory/evaluation/EVAL_detection_classification.md).
 
 | Metric | Result | Requirement | Pass |
 |---|---|---|---|
@@ -50,21 +50,26 @@ clips.
 │   ├── _base_/                 #   shared model, schedule and runtime configs
 │   └── recognition/swin/       #   my_swin.py (18-class) + my_swin_4cls*.py (4-class)
 ├── mmaction/                   # MMAction2 source, installed in editable mode
-├── tools/                      # train / test / long-video inference / evaluation entry points
-├── demo/                       # long-video demo scripts and demo configs
-│   └── demo_configs/           #   my_swin_demo.py, my_swin_4cls_demo.py
-├── evaluation/                 # evaluation report, figures, results, run-record scripts
-├── data/                       # annotations & label files only — videos are NOT in this repo
-│   ├── excel/                  #   per-person annotation workbooks (ground truth source)
+├── working_directory/          # everything you RUN: train / test / evaluation
+│   ├── train.py, test.py, dist_train.sh, dist_test.sh
+│   ├── infer_long_video.py     #   sliding-window inference over long videos
+│   ├── eval_det_cls.py, eval_4cls.py, eval_long_video.py, plot_det_cls.py
+│   └── evaluation/             #   evaluation report, figures, results, run records
+├── data/                       # data + data-processing scripts (videos NOT in repo)
+│   ├── excel/                  #   per-person annotation workbooks (ground truth)
+│   ├── prep/                   #   raw -> train/test pipeline (see "From raw data")
 │   ├── labels/                 #   label files for the demo --label argument
 │   ├── myvideo/                #   18-class lists + classInd.txt
 │   └── digitaltwin_action/     #   4-class lists + labels
-├── tools/data_prep/            # raw -> train/test data pipeline (see "From raw data" below)
+├── demo/                       # long-video demo scripts and demo configs
+│   └── demo_configs/           #   my_swin_demo.py, my_swin_4cls_demo.py
+├── tools/                      # standalone utilities
+│   ├── format_json_to_action.py  # decision JSON -> ActionData event format
+│   ├── split_long_video.py       # long video -> sliding-window clips (legacy path)
+│   └── h264.py                   # re-encode clips for preview
+├── docs/                       # manuals
+├── archives/                   # superseded scripts, backups, legacy files, v3 freeze
 ├── tests/                      # MMAction2 unit tests
-├── docs/                       # manuals (4-class action recognition manual)
-├── attic/                      # superseded scripts & backups, kept for reference only
-├── archives/v3_known_good/     # frozen config + split of the v3 4-class fine-tune
-├── format_json_to_action.py    # converts raw decision JSON into the ActionData event format
 └── setup.py, setup.cfg
 ```
 
@@ -135,7 +140,7 @@ than trying to use the file.
 
 | Task | Checkpoint |
 |---|---|
-| 18-class training / testing / `tools/infer_long_video.py` | `checkpoints/bg_7289/best_acc_top1_epoch_27.pth` |
+| 18-class training / testing / `working_directory/infer_long_video.py` | `checkpoints/bg_7289/best_acc_top1_epoch_27.pth` |
 | **digitaltwins long-video demo** (`demo/long_video_demo_4cls_v2.py`) | `work_dirs/4cls_finetune_v51_walking_neg/epoch_30.pth` |
 | 4-class fine-tune warm start | `checkpoints/class_7/best_acc_top1_epoch_18.pth` (set automatically by `load_from`) |
 
@@ -246,7 +251,7 @@ Then run the three-stage pipeline:
 ```bash
 # Stage 1 - cut annotated action intervals out of the raw videos
 #   (Stand intervals become *_bg background clips)
-python tools/data_prep/slice_raw_actions.py \
+python data/prep/slice_raw_actions.py \
     --raw-dir /path/to/raw_long \
     --excel-dir data/excel \
     --out-dir data/myvideo/videos_val \
@@ -254,10 +259,10 @@ python tools/data_prep/slice_raw_actions.py \
 
 # Stage 2 - split long background clips into 100-frame windows
 #   (edit the input/output folder at the bottom of the script)
-python tools/data_prep/slice_bg_val.py      # slice_bg.py for the train split
+python data/prep/slice_bg_val.py      # slice_bg.py for the train split
 
 # Stage 3 - regenerate the annotation lists
-cd data/myvideo && python ../../tools/data_prep/file_list.py
+cd data/myvideo && python ../../data/prep/file_list.py
 ```
 
 For the training split, repeat with `--persons 1 2 3 4 5 6 7 8 9 10` and
@@ -274,7 +279,7 @@ regenerate the lists in stage 3 rather than reusing the tracked ones.
 
 ```bash
 cd ~/my_mmaction2
-python tools/train.py configs/recognition/swin/my_swin.py \
+python working_directory/train.py configs/recognition/swin/my_swin.py \
     --work-dir work_dirs/<run_name> \
     --cfg-options model.cls_head.num_classes=18
 ```
@@ -282,7 +287,7 @@ python tools/train.py configs/recognition/swin/my_swin.py \
 Multi-GPU:
 
 ```bash
-bash tools/dist_train.sh configs/recognition/swin/my_swin.py 4 \
+bash working_directory/dist_train.sh configs/recognition/swin/my_swin.py 4 \
     --work-dir work_dirs/<run_name> \
     --cfg-options model.cls_head.num_classes=18
 ```
@@ -299,7 +304,7 @@ bash tools/dist_train.sh configs/recognition/swin/my_swin.py 4 \
 `num_classes` is already 4, so no override is needed:
 
 ```bash
-python tools/train.py configs/recognition/swin/my_swin_4cls_v51.py \
+python working_directory/train.py configs/recognition/swin/my_swin_4cls_v51.py \
     --work-dir work_dirs/4cls_finetune_v51_walking_neg
 ```
 
@@ -316,7 +321,7 @@ Checkpoint: `checkpoints/bg_7289/best_acc_top1_epoch_27.pth` — see
 
 ```bash
 cd ~/my_mmaction2
-bash tools/dist_test.sh configs/recognition/swin/my_swin.py \
+bash working_directory/dist_test.sh configs/recognition/swin/my_swin.py \
     checkpoints/bg_7289/best_acc_top1_epoch_27.pth 4 \
     --work-dir work_dirs/base18_eval \
     --dump work_dirs/base18_eval/preds.pkl \
@@ -324,7 +329,7 @@ bash tools/dist_test.sh configs/recognition/swin/my_swin.py \
       test_dataloader.batch_size=2 test_dataloader.num_workers=6
 ```
 
-Single GPU: `python tools/test.py <config> <checkpoint> --work-dir ... --dump ...`
+Single GPU: `python working_directory/test.py <config> <checkpoint> --work-dir ... --dump ...`
 
 ---
 
@@ -377,7 +382,7 @@ Batch sliding-window inference over a whole session recording, dumping scores
 to a `.pkl` for evaluation:
 
 ```bash
-python tools/infer_long_video.py \
+python working_directory/infer_long_video.py \
     --video <VIDEO>.mp4 \
     --config configs/recognition/swin/my_swin.py \
     --checkpoint checkpoints/bg_7289/best_acc_top1_epoch_27.pth \
@@ -439,14 +444,14 @@ cd ~/my_mmaction2
 bash evaluation/scripts/base18_test.sh
 
 # 2. detection rate + classification accuracy  ->  eval_det_cls.txt
-python tools/eval_det_cls.py \
+python working_directory/eval_det_cls.py \
     --preds work_dirs/base18_eval/preds.pkl \
     --ann data/myvideo/myvideo_val_list.txt \
     --labels data/myvideo/classInd.txt \
     --bg-index 0
 
 # 3. the three clip-level figures
-python tools/plot_det_cls.py \
+python working_directory/plot_det_cls.py \
     --preds work_dirs/base18_eval/preds.pkl \
     --ann data/myvideo/myvideo_val_list.txt \
     --labels data/myvideo/classInd.txt \
