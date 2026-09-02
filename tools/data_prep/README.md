@@ -20,7 +20,9 @@ view C; view L shares the annotation (~6-frame offset, see repo readme).
 ## 3. Clip-level test set (data/myvideo)
 - Annotated intervals were cut from the raw recordings into per-action clips
   (naming: `s{person}_a{action}_{scene}_{row}_rep{rep}_frames_{start}_{end}_{view}.mp4`);
-  this first cut was performed on server1 (`/data/sda1/shared/sliced_video`).
+  this first cut was historically performed on server1
+  (`/data/sda1/shared/sliced_video`). It can now be reproduced from this repo
+  with `slice_raw_actions.py` (raw videos + Excel -> per-class clips).
 - Long background (`_bg`) stretches were further split into 100-frame windows:
   `slice_bg.py` (train) / `slice_bg_val.py` (val).
 - `file_list.py` walks `videos_train/` / `videos_val/` and generates

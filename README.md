@@ -53,12 +53,18 @@ clips.
 ├── tools/                      # train / test / long-video inference / evaluation entry points
 ├── demo/                       # long-video demo scripts and demo configs
 │   └── demo_configs/           #   my_swin_demo.py, my_swin_4cls_demo.py
-├── evaluation/                 # evaluation pipeline, results and report (see below)
-├── data/                       # annotation lists only — the videos are NOT in this repo
+├── evaluation/                 # evaluation report, figures, results, run-record scripts
+├── data/                       # annotations & label files only — videos are NOT in this repo
+│   ├── excel/                  #   per-person annotation workbooks (ground truth source)
+│   ├── labels/                 #   label files for the demo --label argument
+│   ├── myvideo/                #   18-class lists + classInd.txt
+│   └── digitaltwin_action/     #   4-class lists + labels
+├── tools/data_prep/            # raw -> train/test data pipeline (see "From raw data" below)
 ├── tests/                      # MMAction2 unit tests
+├── docs/                       # manuals (4-class action recognition manual)
+├── attic/                      # superseded scripts & backups, kept for reference only
 ├── archives/v3_known_good/     # frozen config + split of the v3 4-class fine-tune
 ├── format_json_to_action.py    # converts raw decision JSON into the ActionData event format
-├── action.json                 # action / scene definition used by the formatter
 └── setup.py, setup.cfg
 ```
 
@@ -223,6 +229,45 @@ adds targeted samples:
 
 ---
 
+## From raw data to train / test data
+
+Everything below the raw recordings is reproducible from this repository. A
+third party needs exactly two inputs:
+
+1. **Raw long session videos** (~13 GB for the test split, persons 11-15:
+   63 videos, `<person>/<person>_<scene>_<view>.mp4`, 6 scenes x views C/L) —
+   restricted access, request from the lab. The training split (persons 1-10)
+   is stored the same way.
+2. **This repository** — the annotation workbooks (`data/excel/`) and all
+   processing scripts are tracked in git.
+
+Then run the three-stage pipeline:
+
+```bash
+# Stage 1 - cut annotated action intervals out of the raw videos
+#   (Stand intervals become *_bg background clips)
+python tools/data_prep/slice_raw_actions.py \
+    --raw-dir /path/to/raw_long \
+    --excel-dir data/excel \
+    --out-dir data/myvideo/videos_val \
+    --persons 11 12 13 14 15
+
+# Stage 2 - split long background clips into 100-frame windows
+#   (edit the input/output folder at the bottom of the script)
+python tools/data_prep/slice_bg_val.py      # slice_bg.py for the train split
+
+# Stage 3 - regenerate the annotation lists
+cd data/myvideo && python ../../tools/data_prep/file_list.py
+```
+
+For the training split, repeat with `--persons 1 2 3 4 5 6 7 8 9 10` and
+`--out-dir data/myvideo/videos_train`. The long-video (event-level) evaluation
+needs no cutting at all — it runs directly on the raw videos (see
+`evaluation/`). Note: the historical clip set was cut with an earlier
+server-side script; rebuilt clips are functionally equivalent (same intervals,
+same Excel ground truth) but file names may differ in minor details, so always
+regenerate the lists in stage 3 rather than reusing the tracked ones.
+
 ## Training
 
 ### 18-class base model
@@ -323,7 +368,7 @@ python demo/long_video_demo.py \
     --config demo/demo_configs/my_swin_demo.py \
     --checkpoint checkpoints/bg_7289/best_acc_top1_epoch_27.pth \
     --video_path <VIDEO>.mp4 \
-    --label tools/my_label.txt \
+    --label data/labels/my_label.txt \
     --out_file <OUT>.mp4 \
     --input-step 2 --stride 0.25
 ```

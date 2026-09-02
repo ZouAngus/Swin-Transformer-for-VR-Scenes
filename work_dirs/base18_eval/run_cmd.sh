@@ -1,1 +1,0 @@
-cd ~/my_mmaction2 && PATH=~/anaconda3/envs/mmaction2/bin:$PATH bash tools/dist_test.sh configs/recognition/swin/my_swin.py checkpoints/bg_7289/best_acc_top1_epoch_27.pth 4 --work-dir work_dirs/base18_eval --dump work_dirs/base18_eval/preds.pkl --cfg-options model.cls_head.num_classes=18 test_dataloader.batch_size=2 test_dataloader.num_workers=6
