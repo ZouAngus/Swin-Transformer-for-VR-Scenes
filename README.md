@@ -525,7 +525,7 @@ The long-video evaluation additionally needs, on server2:
   model and curation of the trained models.
 - Repository restructuring, the evaluation pipeline (detection rate,
   classification accuracy, activity duration error) and documentation were
-  prepared with the assistance of **Claude** (Anthropic).
+  prepared with the assistance of **Claude Fable 5** (Anthropic).
 - Built on [MMAction2](https://github.com/open-mmlab/mmaction2) (Apache
   License 2.0) by OpenMMLab. The `mmaction/`, `tools/`, `tests/` and upstream
   `configs/` trees derive from it; see `LICENSE` for the upstream terms.
