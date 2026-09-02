@@ -81,7 +81,7 @@ server2 the environment already exists: `conda activate mmaction2`.
 Every checkpoint is larger than GitHub's 100 MB per-file limit, so the weights
 are distributed separately.
 
-**📦 [Download all checkpoints (HKU SharePoint / OneDrive)](https://connecthkuhk-my.sharepoint.com/:f:/g/personal/u3583523_connect_hku_hk/IgAQ9OH1E8knSaKnLVYCFGexASMQNBKG_0cQ79n-CZz4JvU?e=WbB5y1)**
+**📦 [Download all checkpoints (HKU SharePoint / OneDrive)](https://connecthkuhk-my.sharepoint.com/:u:/g/personal/u3583523_connect_hku_hk/IQAAoqc9cgGERrvN610LW9y6AXVxheDtYq-ETBXvfoxxDqY?e=GgeY6l)**
 
 The archive (`checkpoints_bundle.zip`, 709 MB) mirrors this repository's
 directory layout, so unzipping it at the repository root puts every file exactly
