@@ -260,8 +260,8 @@ python data/prep/slice_raw_actions.py \
     --persons 11 12 13 14 15
 
 # Stage 2 - split long background clips into 100-frame windows
-#   (edit the input/output folder at the bottom of the script)
-python data/prep/slice_bg_val.py      # slice_bg.py for the train split
+#   (paths are relative: run from data/myvideo/)
+cd data/myvideo && python ../prep/slice_bg_val.py   # slice_bg.py for the train split
 
 # Stage 3 - regenerate the annotation lists
 cd data/myvideo && python ../../data/prep/file_list.py
@@ -428,10 +428,11 @@ evaluation/
     ├── sweep_supp.sh                  # variant: background-probability calibration sweep
     ├── pilot_s4.sh                    # variant: stride 4
     ├── aggregate.py                   # aggregates per-video results into a summary
-    └── external/                      # copied from ~/action/tools/ on server2
-        ├── eval_long_video.py         #   per-video evaluation against the Excel annotations
-        └── split_long_video.py        #   slices long recordings into training clips
 ```
+
+(The canonical, runnable copies of `eval_long_video.py` and
+`split_long_video.py` live in `working_directory/` and `tools/`; these shell
+scripts are the as-run records from server2 and contain server-absolute paths.)
 
 `scripts/` holds **copies**; the originals still sit in
 `work_dirs/long_eval_18cls/` and `work_dirs/base18_eval/` on server2 and are
@@ -500,19 +501,20 @@ Step 4 reproduces the reported **9.3%** duration error. Note the two arguments:
 > correct — they are different configurations. The baseline copy is kept as
 > `results/aggregate_summary_baseline.txt` for comparison.
 
-The long-video evaluation additionally needs, on server2:
-`~/action/data/excel/` (per-person annotation spreadsheets),
-`~/action/data/raw_long/` (raw session recordings) and
-`~/action/data/raw_long/frame_counts.json`.
+The long-video evaluation additionally needs the raw session recordings
+(`raw_long/`, ~13 GB — on server2 at `~/action/data/raw_long/`, integrity
+manifest in `data/raw_long_sha256.txt`). The annotation spreadsheets and
+`frame_counts.json` are already tracked in this repository under
+`data/excel/`.
 
 ---
 
 ## Known issues
 
-* **Hard-coded paths.** Several configs and demo scripts contain absolute paths
-  under `/home/zhuyusi/my_mmaction2/` (`load_from` in the 4-class configs,
-  `FORMAT_JSON_TO_ACTION_SCRIPT` and `DEFAULT_OUT_DIR` in the demo scripts).
-  They work on server2 as-is; adjust them for any other machine.
+* **Hard-coded paths in configs.** The 4-class fine-tune configs set
+  `load_from` to absolute checkpoint paths under `/home/zhuyusi/my_mmaction2/`.
+  They work on server2 as-is; adjust them for any other machine. (The demo
+  scripts formerly had absolute paths too; those are now repo-relative.)
 * **`num_classes=4` in the shared base config** — see the warning under
   *Training*.
 * **Several near-identical demo scripts** (`long_video_demo_4cls.py`,

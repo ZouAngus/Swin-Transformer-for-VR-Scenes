@@ -71,7 +71,8 @@ TIMESTAMP_PATTERN = re.compile(
 )
 FORMAT_JSON_TO_ACTION_SCRIPT = os.path.join(
     os.path.dirname(os.path.abspath(__file__)), '..', 'tools', 'format_json_to_action.py')
-DEFAULT_OUT_DIR = '/home/zhuyusi/my_mmaction2/demo/digitaltwins/results'
+DEFAULT_OUT_DIR = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), 'digitaltwins', 'results')
 
 
 def parse_args():

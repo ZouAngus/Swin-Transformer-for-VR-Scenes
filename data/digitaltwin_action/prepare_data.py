@@ -10,8 +10,9 @@ import random
 
 random.seed(42)
 
-DATA_DIR = "/home/zhuyusi/my_mmaction2/data/digitaltwin_action"
-OUT_DIR = "/home/zhuyusi/my_mmaction2/data/digitaltwin_action"
+import os as _os
+DATA_DIR = _os.path.dirname(_os.path.abspath(__file__))
+OUT_DIR = DATA_DIR
 
 # Label mapping: action keyword in filename -> (class_index, class_name)
 LABEL_MAP = {
