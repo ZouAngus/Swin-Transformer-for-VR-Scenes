@@ -243,6 +243,8 @@ third party needs exactly two inputs:
    63 videos, `<person>/<person>_<scene>_<view>.mp4`, 6 scenes x views C/L) —
    restricted access, request from the lab. The training split (persons 1-10)
    is stored the same way.
+   Integrity manifest: `data/raw_long_sha256.txt` (63 files).
+
 2. **This repository** — the annotation workbooks (`data/excel/`) and all
    processing scripts are tracked in git.
 
