@@ -519,8 +519,13 @@ The long-video evaluation additionally needs, on server2:
   `long_video_demo_4cls_v2.py`, `long_video_4cls.py`, plus `.backup_*` copies).
   `long_video_demo_4cls_v2.py` is the current one.
 
-## Acknowledgement
+## Acknowledgements
 
-Built on [MMAction2](https://github.com/open-mmlab/mmaction2) (Apache License
-2.0) by OpenMMLab. The `mmaction/`, `tools/`, `tests/` and upstream `configs/`
-trees derive from it; see `LICENSE` for the upstream terms.
+- **Yusi Zhu** — training of the general 17-action-class (+ background) base
+  model and curation of the trained models.
+- Repository restructuring, the evaluation pipeline (detection rate,
+  classification accuracy, activity duration error) and documentation were
+  prepared with the assistance of **Claude** (Anthropic).
+- Built on [MMAction2](https://github.com/open-mmlab/mmaction2) (Apache
+  License 2.0) by OpenMMLab. The `mmaction/`, `tools/`, `tests/` and upstream
+  `configs/` trees derive from it; see `LICENSE` for the upstream terms.
